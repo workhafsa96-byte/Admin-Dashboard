@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <!-- Google Fonts: Syne (headings) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       SIDEBAR NAVIGATION
+  ════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Brand / Logo -->
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <i class="ph-bold ph-chart-pie-slice"></i>
+      </div>
+      <span class="brand-name">Nexus<span class="brand-accent">Pro</span></span>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="sidebar-nav">
+      <p class="nav-label">Main Menu</p>
+
+      <a href="#" class="nav-link active">
+        <i class="ph-bold ph-squares-four"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-link">
+        <i class="ph-bold ph-chart-line-up"></i>
+        <span>Analytics</span>
+      </a>
+      <a href="#" class="nav-link">
+        <i class="ph-bold ph-shopping-cart-simple"></i>
+        <span>Orders</span>
+      </a>
+      <a href="#" class="nav-link">
+        <i class="ph-bold ph-users-three"></i>
+        <span>Customers</span>
+      </a>
+
+      <p class="nav-label">Settings</p>
+      <a href="#" class="nav-link">
+        <i class="ph-bold ph-gear-six"></i>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="nav-link">
+        <i class="ph-bold ph-bell"></i>
+        <span>Notifications</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-avatar" id="sidebarAvatar">A</div>
+      <div class="sidebar-user-info">
+        <span class="sidebar-username" id="sidebarName">Admin</span>
+        <span class="sidebar-role">Administrator</span>
+      </div>
+      <i class="ph-bold ph-sign-out sidebar-logout"></i>
+    </div>
+  </aside>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN CONTENT AREA
+  ════════════════════════════════════════ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ── HEADER ── -->
+    <header class="dashboard-header">
+      <!-- Mobile hamburger -->
+      <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <i class="ph-bold ph-list"></i>
+      </button>
+
+      <div class="header-title">
+        <h1 id="headerGreeting">Welcome Back 👋</h1>
+        <p id="headerDate" class="header-subtitle">Loading date…</p>
+      </div>
+
+      <div class="header-actions">
+        <!-- Dark / Light toggle -->
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+          <i class="ph-bold ph-sun" id="themeIcon"></i>
+        </button>
+        <!-- Generate Button -->
+        <button class="btn-generate" id="generateBtn" onclick="generateDashboard()">
+          <i class="ph-bold ph-sparkle"></i>
+          <span>Generate Dashboard</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── WELCOME SPLASH (shown before data entry) ── -->
+    <section class="splash-section" id="splashSection">
+      <div class="splash-card">
+        <div class="splash-icon">
+          <i class="ph-bold ph-rocket-launch"></i>
+        </div>
+        <h2>Ready to Launch?</h2>
+        <p>Click <strong>Generate Dashboard</strong> in the top-right corner to enter your business data and see your personalised analytics.</p>
+        <button class="btn-generate splash-btn" onclick="generateDashboard()">
+          <i class="ph-bold ph-sparkle"></i>
+          <span>Get Started</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── DASHBOARD DATA (hidden until generated) ── -->
+    <section class="dashboard-data" id="dashboardData" style="display:none;">
+
+      <!-- String Info Banner -->
+      <div class="info-banner" id="infoBanner">
+        <div class="banner-item">
+          <span class="banner-label">UPPERCASE</span>
+          <span class="banner-value" id="nameUpper">—</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-item">
+          <span class="banner-label">lowercase</span>
+          <span class="banner-value" id="nameLower">—</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-item">
+          <span class="banner-label">First Char</span>
+          <span class="banner-value" id="nameChar">—</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-item">
+          <span class="banner-label">Name Length</span>
+          <span class="banner-value" id="nameLen">—</span>
+        </div>
+      </div>
+
+      <!-- KPI CARDS GRID -->
+      <div class="cards-grid" id="cardsGrid">
+
+        <!-- Card 1 – Total Sales -->
+        <div class="stat-card card-sales">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-currency-dollar"></i></div>
+            <span class="card-badge">Revenue</span>
+          </div>
+          <div class="card-value" id="cardSales">$0</div>
+          <div class="card-label">Total Sales</div>
+          <div class="card-bar"><div class="card-bar-fill" id="barSales"></div></div>
+        </div>
+
+        <!-- Card 2 – Total Orders -->
+        <div class="stat-card card-orders">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-package"></i></div>
+            <span class="card-badge">Orders</span>
+          </div>
+          <div class="card-value" id="cardOrders">0</div>
+          <div class="card-label">Total Orders</div>
+          <div class="card-bar"><div class="card-bar-fill" id="barOrders"></div></div>
+        </div>
+
+        <!-- Card 3 – Total Customers -->
+        <div class="stat-card card-customers">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-users"></i></div>
+            <span class="card-badge">People</span>
+          </div>
+          <div class="card-value" id="cardCustomers">0</div>
+          <div class="card-label">Total Customers</div>
+          <div class="card-bar"><div class="card-bar-fill" id="barCustomers"></div></div>
+        </div>
+
+        <!-- Card 4 – Average Value -->
+        <div class="stat-card card-avg">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-chart-bar"></i></div>
+            <span class="card-badge">Calc</span>
+          </div>
+          <div class="card-value" id="cardAvg">$0</div>
+          <div class="card-label">Average Value</div>
+          <div class="card-bar"><div class="card-bar-fill" id="barAvg"></div></div>
+        </div>
+
+        <!-- Card 5 – Name Length -->
+        <div class="stat-card card-len">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-text-aa"></i></div>
+            <span class="card-badge">String</span>
+          </div>
+          <div class="card-value" id="cardLen">0</div>
+          <div class="card-label">Name Length</div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:60%"></div></div>
+        </div>
+
+        <!-- Card 6 – First Letter -->
+        <div class="stat-card card-char">
+          <div class="card-header">
+            <div class="card-icon"><i class="ph-bold ph-cursor-text"></i></div>
+            <span class="card-badge">charAt(0)</span>
+          </div>
+          <div class="card-value" id="cardChar">—</div>
+          <div class="card-label">First Letter</div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:80%"></div></div>
+        </div>
+
+      </div><!-- /cards-grid -->
+
+      <!-- ── CALCULATIONS PANEL ── -->
+      <div class="calc-panel">
+        <h3 class="section-title"><i class="ph-bold ph-calculator"></i> Number Calculations</h3>
+        <div class="calc-grid">
+          <div class="calc-item">
+            <span class="calc-label">Sales + Orders + Customers</span>
+            <span class="calc-result" id="calcTotal">0</span>
+          </div>
+          <div class="calc-item">
+            <span class="calc-label">Average (Total ÷ 3)</span>
+            <span class="calc-result" id="calcAvg">0</span>
+          </div>
+          <div class="calc-item">
+            <span class="calc-label">Sales × 1.2 (Projected)</span>
+            <span class="calc-result" id="calcProjected">0</span>
+          </div>
+          <div class="calc-item">
+            <span class="calc-label">Revenue per Customer</span>
+            <span class="calc-result" id="calcPerCustomer">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RECENT ACTIVITY ── -->
+      <div class="activity-section">
+        <h3 class="section-title"><i class="ph-bold ph-activity"></i> Recent Activity</h3>
+        <div class="activity-list" id="activityList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </section><!-- /dashboard-data -->
+
+    <!-- ── FOOTER ── -->
+    <footer class="dashboard-footer">
+      <span>© 2026 <strong>NexusPro</strong> Admin Panel</span>
+      <span>Built with ❤️ using Vanilla JS</span>
+    </footer>
+
+  </main><!-- /main-content -->
+
+  <script src="app.js"></script>
+</body>
+</html>
